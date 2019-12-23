@@ -22,7 +22,6 @@ public class ControllerTextArea {
     @RequestMapping(value = "/")
     public ModelAndView methodGet() {
         Reg reg = new Reg();
-        DataCafe dataCafe = new DataCafe();
         reg.setHobby(new String[]{"BodyBuilding", "Learn Java", "My family"});
         ModelAndView modelAndView = new ModelAndView("welcome", "command", reg);
 
@@ -33,7 +32,6 @@ public class ControllerTextArea {
     @RequestMapping(value = "/s")
     public ModelAndView methodGet2() {
         DataCafe dataCafe = new DataCafe();
-        DataCafe dataCaf2e = new DataCafe();
         ModelAndView modelAndView2 = new ModelAndView("well", "command", dataCafe);
 
 
