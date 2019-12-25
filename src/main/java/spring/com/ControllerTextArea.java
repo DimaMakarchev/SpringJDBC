@@ -5,11 +5,17 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletContext;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +24,39 @@ public class ControllerTextArea {
     private ApplicationContext applicationContext = new ClassPathXmlApplicationContext("bean-config.xml");
     private FactoryJDBC factoryJDBC = (FactoryJDBC) applicationContext.getBean("factory");
 
+    @Autowired
+    ServletContext context;
+
+    /*=====File Start==========*/
+    @RequestMapping(value = "/fileUploadPage", method = RequestMethod.GET)
+    public ModelAndView fileUploadPage() {
+        FIleModel file = new FIleModel();
+        ModelAndView modelAndView = new ModelAndView("fileUpload", "command", file);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/fileUploadPage", method = RequestMethod.POST)
+    public String fileUpload(@Validated FIleModel file, BindingResult bindingResult, ModelMap modelMap) throws Exception {
+        if (bindingResult.hasErrors()) {
+            /*error*/
+            return "fileUploadPage";
+        } else {
+
+            MultipartFile multipartFile = file.getFile();
+            String bro = context.getRealPath("");
+
+            String originalFilename = file.getFile().getOriginalFilename();
+            factoryJDBC.creat(originalFilename,1237);
+            FileCopyUtils.copy(file.getFile().getBytes(), new File(bro + file.getFile().getOriginalFilename()));
+            String fileName = multipartFile.getOriginalFilename();
+            modelMap.addAttribute("fileName", fileName);
+            return "success";
+        }
+    }
+
+
+
+    /*============AND========*/
 
     @RequestMapping(value = "/")
     public ModelAndView methodGet() {

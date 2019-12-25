@@ -34,7 +34,7 @@
        <%-- <% boolean have = (boolean) request.getAttribute("have");
 
             if (have) { %>
-
+1
 
 
         <%} else { %>
