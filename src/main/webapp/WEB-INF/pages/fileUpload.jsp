@@ -13,11 +13,13 @@
 </head>
 <body>
 <div>
-    <form:form method="post" enctype="multipart/form-data" modelAttribute="fileUpload">
-      <input  type="file" name="file"/>
-        <input type="submit" value="upload"/>
+    <form:form method="post"  action="/getxxx" modelAttribute="fileUpload" enctype="multipart/form-data">
+        <input type="file" name="file"/>
+        <input type="submit" value="Bro" style="background-color: #ff5e56;border-radius: 15px"/>
     </form:form>
 </div>
+
+
 
 </body>
 </html>

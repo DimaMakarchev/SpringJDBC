@@ -1,5 +1,9 @@
 package spring.com;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "bro")
 public class DataCafe {
     private int id;
     private String name;
@@ -13,6 +17,7 @@ public class DataCafe {
         return id;
     }
 
+    @XmlElement
     public void setId(int id) {
         this.id = id;
     }
@@ -21,6 +26,7 @@ public class DataCafe {
         return name;
     }
 
+    @XmlElement
     public void setName(String name) {
         this.name = name;
     }
@@ -29,6 +35,7 @@ public class DataCafe {
         return code;
     }
 
+    @XmlElement
     public void setCode(int code) {
         this.code = code;
     }

@@ -8,12 +8,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.jws.WebParam;
 import javax.servlet.ServletContext;
 import java.io.File;
 import java.util.ArrayList;
@@ -24,10 +23,44 @@ public class ControllerTextArea {
     private ApplicationContext applicationContext = new ClassPathXmlApplicationContext("bean-config.xml");
     private FactoryJDBC factoryJDBC = (FactoryJDBC) applicationContext.getBean("factory");
 
+    @RequestMapping(value = "/bro", method = RequestMethod.GET)
+    public String methodBro(ModelMap modelMap) {
+        modelMap.addAttribute("mess", "bro");
+        return "bro";
+    }
+
+    @Autowired
+    ServletContext servletContext;
+
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    public ModelAndView xxxdPage() {
+        FIleModel fIleModel = new FIleModel();
+        ModelAndView modelAndView = new ModelAndView("fileUpload", "command", fIleModel);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/getxxx", method = RequestMethod.POST)
+    public String xxxxx(@Validated FIleModel model, BindingResult bindingResult, ModelMap modelMap) throws Exception {
+        if (bindingResult.hasErrors()) {
+            return "fileUpload";
+        } else {
+            MultipartFile multipartFile = model.getFile();
+            String originalFilename = multipartFile.getOriginalFilename();
+            factoryJDBC.creat(originalFilename, 257);
+            servletContext.getRealPath("");
+            FileCopyUtils.copy(model.getFile().getBytes(), new File(model + model.getFile().getOriginalFilename()));
+            modelMap.addAttribute("filename", originalFilename);
+            return "success";
+        }
+    }
+    /*
+
     @Autowired
     ServletContext context;
 
-    /*=====File Start==========*/
+    */
+    /*=====Fil  e Start==========*//*
+
     @RequestMapping(value = "/fileUploadPage", method = RequestMethod.GET)
     public ModelAndView fileUploadPage() {
         FIleModel file = new FIleModel();
@@ -38,7 +71,9 @@ public class ControllerTextArea {
     @RequestMapping(value = "/fileUploadPage", method = RequestMethod.POST)
     public String fileUpload(@Validated FIleModel file, BindingResult bindingResult, ModelMap modelMap) throws Exception {
         if (bindingResult.hasErrors()) {
-            /*error*/
+            */
+    /*error*//*
+
             return "fileUploadPage";
         } else {
 
@@ -46,17 +81,19 @@ public class ControllerTextArea {
             String bro = context.getRealPath("");
 
             String originalFilename = file.getFile().getOriginalFilename();
-            factoryJDBC.creat(originalFilename,1237);
+            factoryJDBC.creat(originalFilename, 1237);
             FileCopyUtils.copy(file.getFile().getBytes(), new File(bro + file.getFile().getOriginalFilename()));
-            String fileName = multipartFile.getOriginalFilename();
+                        String fileName = multipartFile.getOriginalFilename();
             modelMap.addAttribute("fileName", fileName);
             return "success";
         }
     }
 
 
+*/
 
     /*============AND========*/
+
 
     @RequestMapping(value = "/")
     public ModelAndView methodGet() {
@@ -72,7 +109,6 @@ public class ControllerTextArea {
     public ModelAndView methodGet2() {
         DataCafe dataCafe = new DataCafe();
         ModelAndView modelAndView2 = new ModelAndView("well", "command", dataCafe);
-
 
         return modelAndView2;
     }
@@ -101,6 +137,16 @@ public class ControllerTextArea {
             map.addAttribute("code", dataCafe1.getCode());
         }
         return "result";
+    }
+
+    @RequestMapping(value = "/xmlroot", method = RequestMethod.GET)
+    public @ResponseBody
+    DataCafe methodXML() {
+        DataCafe dataCafe = new DataCafe();
+        dataCafe.setCode(123);
+        dataCafe.setId(789);
+        dataCafe.setName("BRO");
+        return dataCafe;
     }
 
     @ModelAttribute("hobbyList")

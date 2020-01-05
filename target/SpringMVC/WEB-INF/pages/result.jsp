@@ -26,22 +26,22 @@
 
         </li>
 
+
+        <% boolean have = (boolean) request.getAttribute("have");
+
+            if (have) { %>
+1
         <li>${name}</li>
         <li>${address}</li>
         <li>${man}</li>
         <li>${hobbyList}</li>
         <li><h1>${cafe}</h1><h1>${code}</h1></li>
-       <%-- <% boolean have = (boolean) request.getAttribute("have");
-
-            if (have) { %>
-1
-
 
         <%} else { %>
 
         NO))))))))
 
-        <%}%>--%>
+        <%}%>
     </ol>
 
 
